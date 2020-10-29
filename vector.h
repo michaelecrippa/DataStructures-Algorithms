@@ -22,6 +22,7 @@ public:
 	void addAt(const T& element, size_t index);
 	T* pop();
 	T* popBack();
+	T* removeAt(size_t index);
 	T* getAt(size_t index);
 	T* peak() const;
 	size_t getSize() const;
