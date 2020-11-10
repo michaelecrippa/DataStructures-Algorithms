@@ -10,6 +10,9 @@ private:
 	void copyFrom(const vector& other);
 	void resize();
 	void resizeDown();
+	bool isEmpty() const;
+	T getAt(size_t index);
+
 public:
 	vector();
 	vector(const vector& other);
@@ -20,12 +23,13 @@ public:
 	void push(const T& element);
 	void pushBack(const T& element);
 	void addAt(const T& element, size_t index);
-	T* pop();
-	T* popBack();
-	T* removeAt(size_t index);
-	T* getAt(size_t index);
-	T* peak() const;
+	T pop();
+	T popBack();
+	T removeAt(size_t index);
+
+	T& operator[](size_t index);
+	const T& operator[](size_t index) const;
+	T peak() const;
 	size_t getSize() const;
 	void print() const;
-	bool empty() const;
 };
