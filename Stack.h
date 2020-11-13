@@ -140,3 +140,108 @@ template <typename T> void Stack<T>::print() const {
 		iter = iter->getNext();
 	}
 }
+
+template <typename T> class StackArr {
+	T* container;
+	size_t size;
+	size_t capacity;
+
+	void erase();
+	void copyFrom(const StackArr<T>&);
+	void resize();
+	void resizeDown();
+
+	bool isEmpty() const;
+
+public:
+	StackArr();
+	StackArr(const StackArr<T>&);
+	StackArr<T>& operator=(const StackArr<T>&);
+	~StackArr();
+
+	void push(const T& element);
+	T pop();
+	T peak();
+
+	size_t getSize() const;
+	void print() const;
+};
+template <typename T> void StackArr<T>::erase() {
+	if (isEmpty()) return;
+	delete[] container;
+	size = 0;
+	capacity = 0;
+	container = nullptr;
+}
+template <typename T> void StackArr<T>::copyFrom(const StackArr<T>& other) {
+	delete[] container;
+	size = other.size;
+	capacity = other.capacity;
+	container = new T[capacity];
+	for (size_t i = 0; i < size; i++)
+		container[i] = other.container[i];
+}
+template <typename T> void StackArr<T>::resize() {
+	capacity *= 2;
+	T* helper = new T[capacity];
+	for (size_t i = 0; i < size; i++)
+		helper[i] = container[i];
+	delete[] container;
+	container = helper;
+}
+template <typename T> void StackArr<T>::resizeDown() {
+	if (capacity == 8) throw "Minimum capacity reached! Invalide operation!";
+	capacity /= 2;
+	T* helper = new T[capacity];
+	for (size_t i = 0; i < size; i++)
+		helper[i] = container[i];
+	delete[] container;
+	container = helper;
+}
+
+template <typename T> StackArr<T>::StackArr() {
+	size = 0;
+	capacity = 8;
+	container = new T[capacity];
+}
+template <typename T> StackArr<T>::StackArr(const StackArr<T>& other) {
+	copyFrom(other);
+}
+template <typename T>StackArr<T>& StackArr<T>::operator=(const StackArr<T>& other) {
+	if (this != &other){
+		erase();
+		copyFrom(other);
+	}
+	return *this;
+}
+template <typename T> StackArr<T>::~StackArr() {
+	erase();
+}
+
+template <typename T> void StackArr<T>::push(const T& element) {
+	if (size == capacity) resize();
+	container[size++] = element;
+}
+template <typename T> T StackArr<T>::pop() {
+	if (isEmpty()) throw std::out_of_range("");
+	T el = capacity[size--];
+	if(size < capacity / 2) resizeDown();
+	return el;
+}
+template <typename T> T StackArr<T>::peak() {
+	if (isEmpty()) throw std::out_of_range("");
+	return container[size];
+}
+
+template <typename T> size_t StackArr<T>::getSize() const {
+	return size;
+}
+template <typename T> void  StackArr<T>::print() const {
+	if (isEmpty()) return;
+	std::cout << "Head ->";
+	for (size_t i = 0; i < size; i++)
+		std::cout << container[i] << " ";
+}
+template <typename T> bool  StackArr<T>::isEmpty() const{
+	return container == nullptr;
+}
