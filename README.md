@@ -3,5 +3,7 @@
 * vector - todo!
 
 Abstract:
-* stack - todo!
+* stack - available
+  * usig structure of a linked list 
+  * using structure of an array 
 * queue - todo!
