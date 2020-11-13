@@ -1,7 +1,7 @@
 # Data structures
-* list (singly and doubly linked)
-* vector
+* list (singly and doubly linked) - available
+* vector - todo!
 
 Abstract:
-* stack
-* queue
+* stack - todo!
+* queue - todo!
