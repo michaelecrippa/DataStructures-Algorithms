@@ -305,8 +305,19 @@ template <typename T> void DoublyLinkedList<T>::print() const {
 	std::cout << std::endl;
 }
 template <typename T> void DoublyLinkedList<T>::reverse() {
-	if (isEmpty()) return;
-	Node<T>* helper = head;
+	if (isEmpty() || getSize() == 1) return;
+	Node<T>* helper;
+	helper = head;
 	head = tail;
+	head->setNext(head->getPrevious());
+	head->getPrevious(nullptr);
 	tail = helper;
+	tail->setPrevious(tail->getNext());
+	tail->setNext(nullptr);
+	Node<T>* iter = head->getNext();
+	while (iter != tail) {
+		Node<T>* helper = iter->getNext();
+		iter->setNext(iter->getPrevious());
+		iter->setPrevious(helper);
+	}
 }
