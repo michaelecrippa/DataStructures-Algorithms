@@ -17,7 +17,39 @@ template <typename T> struct Node {
 
 	void print() const;
 };
+template <typename T> Node<T>::Node<T>() {
+	next = prev = nullptr;
+}
+template <typename T> T Node<T>::getData() const {
+	if (this == nullptr) throw std::invalid_argument("");
+	return data;
+}
+template <typename T> void Node<T>::setData(const T* data) {
+	this->data = *data;
+}
+template <typename T> Node<T>* Node<T>::getNext() const {
+	return next;
+}
+template <typename T> void Node<T>::setNext(const Node<T>* next) {
+	if (this == nullptr) return;
+	this->next = (Node<T>*)next;
+}
 
+template <typename T> Node<T>* Node<T>::getPrevious() const {
+	return prev;
+}
+template <typename T> void Node<T>::setPrevious(const Node<T>* prev) {
+	if (this == nullptr) return;
+	this->prev = (Node<T>*)prev;
+}
+template <typename T> void Node<T>::print() const {
+	if (this == nullptr) return;
+	std::cout << data << ' ';
+}
+
+//********************************************************
+//--------------------------Queue-------------------------
+//********************************************************
 template <typename T> class Queue {
 	Node<T>* head;
 	Node<T>* tail;
@@ -158,6 +190,9 @@ template <typename T> void Queue<T>::reverse() {
 	}
 }
 
+//********************************************************
+//---------------------Circular Queue---------------------
+//********************************************************
 template <typename T> class CircularQueue {
 	Node<T>* head;
 	Node<T>* tail;
@@ -168,10 +203,10 @@ template <typename T> class CircularQueue {
 
 	bool isEmpty() const;
 public:
-	Queue();
-	Queue(const Queue<T>& other);
-	Queue<T>& operator=(const Queue<T>& other);
-	~Queue();
+	CircularQueue();
+	CircularQueue(const CircularQueue<T>& other);
+	CircularQueue<T>& operator=(const CircularQueue<T>& other);
+	~CircularQueue();
 
 
 	void push(const T& element); //pushFront 
@@ -182,7 +217,7 @@ public:
 	void print() const;
 	void reverse();
 };
-template <typename T> void Queue<T>::erase() {
+template <typename T> void CircularQueue<T>::erase() {
 	if (isEmpty()) return;
 	while (head != tail) { //more than 1 element
 		head = head->getNext();
@@ -191,7 +226,7 @@ template <typename T> void Queue<T>::erase() {
 	delete head; //1 element left to delete
 	head = tail = nullptr;
 }
-template <typename T> void Queue<T>::copyFrom(const Queue<T>& other) {
+template <typename T> void CircularQueue<T>::copyFrom(const Queue<T>& other) {
 	short diff = size - other.size;
 	//other is larger
 	if (diff < 0)
@@ -212,23 +247,23 @@ template <typename T> void Queue<T>::copyFrom(const Queue<T>& other) {
 	cursor->setData(&otherCursor->data); // copyTail
 }
 
-template <typename T> Queue<T>::Queue() {
+template <typename T> CircularQueue<T>::CircularQueue() {
 	head = tail = nullptr;
 	size = 0;
 }
-template <typename T> Queue<T>::Queue(const Queue<T>& other) {
+template <typename T> CircularQueue<T>::CircularQueue(const CircularQueue<T>& other) {
 	copyFrom(other);
 }
-template <typename T> Queue<T>& Queue<T>::operator=(const Queue<T>& other) {
+template <typename T> CircularQueue<T>& CircularQueue<T>::operator=(const CircularQueue<T>& other) {
 	if (this != &other)
 		copyFrom();
 	return *this;
 }
-template <typename T> Queue<T>::~Queue() {
+template <typename T> CircularQueue<T>::~CircularQueue() {
 	erase();
 }
 
-template <typename T> void Queue<T>::push(const T& element) {
+template <typename T> void CircularQueue<T>::push(const T& element) {
 	Node<T>* add;
 	add->setData(&element);
 	if (isEmpty()) {
@@ -246,7 +281,7 @@ template <typename T> void Queue<T>::push(const T& element) {
 	}
 	size++;
 }
-template <typename T> T  Queue<T>::pop() {
+template <typename T> T  CircularQueue<T>::pop() {
 	if (isEmpty())
 		throw std::length_error("");
 	T data = tail->getData();
@@ -263,15 +298,15 @@ template <typename T> T  Queue<T>::pop() {
 	size--;
 	return data;
 }
-template <typename T> T Queue<T>::peak() const {
+template <typename T> T CircularQueue<T>::peak() const {
 	if (isEmpty()) throw std::length_error("");
 	return tail->getData();
 }
 
-template <typename T> bool Queue<T>::isEmpty() const {
+template <typename T> bool CircularQueue<T>::isEmpty() const {
 	return head == nullptr;
 }
-template <typename T> void Queue<T>::print() const {
+template <typename T> void CircularQueue<T>::print() const {
 	if (isEmpty()) return;
 	std::cout << "Head ->";
 	Node<T>* iter = head;
@@ -282,10 +317,10 @@ template <typename T> void Queue<T>::print() const {
 	}
 	std::cout << iter->getData() << " ";
 }
-template <typename T> size_t Queue<T>::getSize() const {
+template <typename T> size_t CircularQueue<T>::getSize() const {
 	return size;
 }
-template <typename T> void Queue<T>::reverse() {
+template <typename T> void CircularQueue<T>::reverse() {
 	if (isEmpty() || getSize() == 1) return;
 	Node<T>* helper;
 	helper = head;

@@ -35,9 +35,9 @@ template <typename T> void Node<T>::print() const {
 	if (this == nullptr) return;
 	std::cout << data << ' ';
 }
-
-
-//using the structure of SinglyLinkedList to implement the stack
+//********************************************************
+//-----------------Stack using linked list----------------
+//********************************************************
 template <typename T> class Stack {
 	Node<T>* head;
 	size_t size;
@@ -140,7 +140,9 @@ template <typename T> void Stack<T>::print() const {
 		iter = iter->getNext();
 	}
 }
-
+//********************************************************
+//-----------------Stack using dynamic array---------------
+//********************************************************
 template <typename T> class StackArr {
 	T* container;
 	size_t size;
