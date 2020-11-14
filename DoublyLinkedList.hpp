@@ -112,6 +112,7 @@ template <typename T> void DoublyLinkedList<T>::copyFrom(const DoublyLinkedList<
 		otherCursor = otherCursor->getNext();
 	}
 }
+
 template <typename T> DoublyLinkedList<T>::DoublyLinkedList() {
 	head = tail = nullptr;
 	size = 0;
@@ -305,6 +306,7 @@ template <typename T> void DoublyLinkedList<T>::print() const {
 }
 template <typename T> void DoublyLinkedList<T>::reverse() {
 	if (isEmpty()) return;
-	for (size_t i = 0; i < this->size; i++)
-		push(popBack());
+	Node<T>* helper = head;
+	head = tail;
+	tail = helper;
 }
