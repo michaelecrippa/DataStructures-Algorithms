@@ -1,9 +1,9 @@
 # Data structures
 * list (singly and doubly linked) - available
-* vector - todo!
+* vector - available
 
 Abstract:
 * stack - available
   * usig structure of a linked list 
   * using structure of an array 
-* queue - todo!
+* queue - available
