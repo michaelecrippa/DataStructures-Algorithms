@@ -1,4 +1,5 @@
 # Data structures
+Linear structures:
 * list (singly and doubly linked) - available
 * vector - available
 
