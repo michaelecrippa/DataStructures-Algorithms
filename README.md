@@ -1,5 +1,5 @@
 # Data structures
-Linear structures:
+- Linear structures:
 * list (singly/doubly linked) - available
 * vector - available
 
@@ -19,3 +19,19 @@ Abstract structures:
   * edge_list
   * adj_list
 * hash table/dictionary
+# Algorithms
+Sorting
+* bubble sort
+* selection sort
+* insertion sort
+* merge sort
+* quick sort 
+* counting sort
+* heap sort
+* bucket sort
+Searching
+* Binary search
+* Breadth first search
+* Depth first search
+//To do
+(add graph algorithms)
