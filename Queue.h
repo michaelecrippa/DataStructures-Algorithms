@@ -1,4 +1,6 @@
-#include <iostream>
+#ifndef _QUEUE_H_
+#define _QUEUE_H_
+
 template <typename T> struct Node {
 	T data;
 	Node* next;
@@ -283,7 +285,7 @@ template <typename T> void CircularQueue<T>::push(const T& element) {
 }
 template <typename T> T  CircularQueue<T>::pop() {
 	if (isEmpty())
-		throw std::length_error("");
+		throw std::length_error("Out of range!");
 	T data = tail->getData();
 	if (size > 1) {
 		tail = tail->getPrevious();
@@ -299,7 +301,7 @@ template <typename T> T  CircularQueue<T>::pop() {
 	return data;
 }
 template <typename T> T CircularQueue<T>::peak() const {
-	if (isEmpty()) throw std::length_error("");
+	if (isEmpty()) throw std::length_error("Out of range");
 	return tail->getData();
 }
 
@@ -341,3 +343,4 @@ template <typename T> void CircularQueue<T>::reverse() {
 	}
 }
 
+#endif

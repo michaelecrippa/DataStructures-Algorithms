@@ -1,4 +1,7 @@
-#include "baseStructureInterface.h"
+#ifndef _SINGLYLINKEDLIST_H_
+#define _SINGLYLINKEDLIST_H_
+
+#include "base_structure_interface.h"
 
 template <typename T> struct Node {
 	T data;
@@ -36,7 +39,7 @@ template <typename T> void Node<T>::print() const {
 	std::cout << data << ' ';
 }
 
-template <typename T> class SinglyLinkedList : public structuresInterface<T> {
+template <typename T> class SinglyLinkedList : public structures_interface<T> {
 	Node<T>* head;
 	Node<T>* tail;
 	size_t size;
@@ -44,7 +47,7 @@ template <typename T> class SinglyLinkedList : public structuresInterface<T> {
 	void erase();
 	void copyFrom(const SinglyLinkedList<T>& other);
 
-	void getAtIndex(size_t index, Node<T>*& ptr); //for operato[] so can return a reference
+	void getAtIndex(int index, Node<T>*& ptr); 
 	bool isEmpty() const;
 public:
 	SinglyLinkedList();
@@ -52,20 +55,20 @@ public:
 	SinglyLinkedList<T>& operator=(const SinglyLinkedList<T>& other);
 	~SinglyLinkedList();
 
-	void addAt(const T& element, size_t index);
-	T removeAt(size_t index);
+	void addAt(const T& element, int index);
+	T removeAt(int index);
 
-	void push(const T& element); //pushFront 
-	T pop(); //popFront
+	void push(const T& element);
+	T pop(); 
 
 	void pushBack(const T& element);
 	T popBack();
 
-	T getAt(size_t index);
+	T getAt(int index);
 	T peak() const;
 
-	T& operator[](size_t index);
-	const T& operator[](size_t index) const; //peek at position
+	T& operator[](int index);
+	const T& operator[](int index) const;
 
 	size_t getSize() const;
 	void print() const;
@@ -117,16 +120,17 @@ template <typename T> SinglyLinkedList<T>::~SinglyLinkedList() {
 	erase();
 }
 
-template <typename T> void SinglyLinkedList<T>::getAtIndex(size_t index, Node<T>*& ptr)
-{
+template <typename T> void SinglyLinkedList<T>::getAtIndex(int index, Node<T>*& ptr) {
+	if(index < 0 || index >= size) 
+		throw std::out_of_range("Index is out of range!");
 	Node<T>* iterator = head;
 	for (size_t i = 0; i < index; i++)
 		iterator = iterator->getNext();
 	ptr = iterator;
 }
-template <typename T> void SinglyLinkedList<T>::addAt(const T& element, size_t index) {
-	if (index > size)
-		throw std::out_of_range("");
+template <typename T> void SinglyLinkedList<T>::addAt(const T& element, int index) {
+	if (index < 0 || index >= size)
+		throw std::out_of_range("Index is out of range!");
 	else if (index == 0)
 		push(element);
 	else if (index == size)
@@ -142,9 +146,9 @@ template <typename T> void SinglyLinkedList<T>::addAt(const T& element, size_t i
 		size++;
 	}
 }
-template <typename T> T SinglyLinkedList<T>::removeAt(size_t index) {
-	if (index > size)
-		throw std::out_of_range("");
+template <typename T> T SinglyLinkedList<T>::removeAt(int index) {
+	if (index < 0 || index >= size)
+		throw std::out_of_range("Index is out of range!");
 	else if (index == 0)
 		pop();
 	else if (index == size - 1)
@@ -221,7 +225,7 @@ template <typename T> T SinglyLinkedList<T>::popBack() {
 	return data;
 }
 
-template <typename T> T SinglyLinkedList<T>::getAt(size_t index) {
+template <typename T> T SinglyLinkedList<T>::getAt(int index) {
 	if (index == 0) return peak();
 	else if (index < size) {
 		Node<T>* iterator = head;
@@ -229,21 +233,23 @@ template <typename T> T SinglyLinkedList<T>::getAt(size_t index) {
 			iterator = iterator->getNext();
 		return iterator->getData();
 	}
-	else throw std::length_error("");
+	else throw std::length_error("Index is out of range!");
 }
 template <typename T> T SinglyLinkedList<T>::peak() const {
 	if (isEmpty()) throw std::length_error("");
 	return head->getData();
 }
 
-template <typename T> T& SinglyLinkedList<T>::operator[] (size_t index) {
-	if (index >= size) throw std::out_of_range("");
+template <typename T> T& SinglyLinkedList<T>::operator[] (int index) {
+	if (index < 0 || index >= size)
+		throw std::out_of_range("Index is out of range!");
 	Node<T>* ptr;
 	getAtIndex(index, ptr);
 	return ptr->data;
 }
-template <typename T> const T& SinglyLinkedList<T>::operator[] (size_t index) const {
-	if (index >= size) throw std::out_of_range("");
+template <typename T> const T& SinglyLinkedList<T>::operator[] (int index) const {
+	if (index < 0 || index >= size)
+		throw std::out_of_range("Index is out of range!");
 	Node<T>* iterator = head;
 	for (size_t i = 0; i < index; i++)
 		iterator = iterator->getNext();
@@ -272,5 +278,6 @@ template <typename T> void SinglyLinkedList<T>::reverse() {
 	//push(popBack) * size -> verySlow;
 }
 
+#endif 
 
 

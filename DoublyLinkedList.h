@@ -1,4 +1,7 @@
-#include "baseStructureInterface.h"
+#ifndef _DOUBLYLINKEDLIST_H_
+#define _DOUBLYLINKEDLIST_H_
+
+#include "base_structure_interface.h"
 
 template <typename T> struct Node {
 	T data;
@@ -48,7 +51,7 @@ template <typename T> void Node<T>::print() const {
 	std::cout << data << ' ';
 }
 
-template <typename T> class DoublyLinkedList : public structuresInterface<T> {
+template <typename T> class DoublyLinkedList : public structures_interface<T> {
 	Node<T>* head;
 	Node<T>* tail;
 	size_t size;
@@ -56,7 +59,7 @@ template <typename T> class DoublyLinkedList : public structuresInterface<T> {
 	void erase();
 	void copyFrom(const DoublyLinkedList<T>& other);
 
-	void getAtIndex(size_t index, Node<T>*& ptr); //for operato[] so can return a reference
+	void getAtIndex(int index, Node<T>*& ptr); //for operato[] so can return a reference
 	bool isEmpty() const;
 public:
 	DoublyLinkedList();
@@ -64,8 +67,8 @@ public:
 	DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
 	~DoublyLinkedList();
 
-	void addAt(const T& element, size_t index);
-	T removeAt(size_t index);
+	void addAt(const T& element, int index);
+	T removeAt(int index);
 	
 	void push(const T& element); //pushFront 
 	T pop(); //popFront
@@ -73,11 +76,11 @@ public:
 	void pushBack(const T& element);
 	T popBack();
 
-	T getAt(size_t index);
+	T getAt(int index);
 	T peak() const;
 
-	T& operator[](size_t index);
-	const T& operator[](size_t index) const; //peek at position
+	T& operator[](int index);
+	const T& operator[](int index) const; //peek at position
 
 	size_t getSize() const;
 	void print() const;
@@ -129,8 +132,9 @@ template <typename T> DoublyLinkedList<T>::~DoublyLinkedList() {
 	erase();
 }
 
-template <typename T> void DoublyLinkedList<T>::getAtIndex(size_t index, Node<T>*& ptr)
-{
+template <typename T> void DoublyLinkedList<T>::getAtIndex(int index, Node<T>*& ptr) {
+	if (index < 0 || index >= size) 
+		throw std::out_of_range("Index out of range!"); 
 	if (index > size / 2) {
 		Node<T>* iterator = tail;
 		for (size_t i = size - 1; i >= index; i--)
@@ -144,9 +148,9 @@ template <typename T> void DoublyLinkedList<T>::getAtIndex(size_t index, Node<T>
 		ptr = iterator;
 	}
 }
-template <typename T> void DoublyLinkedList<T>::addAt(const T& element, size_t index) {
-	if (index > size)
-		throw std::out_of_range("");
+template <typename T> void DoublyLinkedList<T>::addAt(const T& element, int index) {
+	if (index >= size || index < 0) 
+		throw std::out_of_range("Index out of range!");
 	else if (index == 0)
 		push(element);
 	else if (index == size)
@@ -164,9 +168,9 @@ template <typename T> void DoublyLinkedList<T>::addAt(const T& element, size_t i
 		size++;
 	}
 }
-template <typename T> T DoublyLinkedList<T>::removeAt(size_t index) {
-	if (index > size)
-		throw std::out_of_range("");
+template <typename T> T DoublyLinkedList<T>::removeAt(int index) {
+	if (index >= size || index < 0) 
+		throw std::out_of_range("Index out of range!");
 	else if (index == 0)
 		pop();
 	else if (index == size - 1)
@@ -243,7 +247,7 @@ template <typename T> T DoublyLinkedList<T>::popBack() {
 	return data;
 }
 
-template <typename T> T DoublyLinkedList<T>::getAt(size_t index) {
+template <typename T> T DoublyLinkedList<T>::getAt(int index) {
 	if (index == 0) return peak();
 	else if (index < size) {
 		if (index > size / 2) {
@@ -259,21 +263,21 @@ template <typename T> T DoublyLinkedList<T>::getAt(size_t index) {
 			return iterator->getData();
 		}
 	}
-	else throw std::length_error("");
+	else throw std::length_error("Index out of range!");
 }
 template <typename T> T DoublyLinkedList<T>::peak() const {
 	if (isEmpty()) throw std::length_error("");
 	return head->getData();
 }
 
-template <typename T> T& DoublyLinkedList<T>::operator[] (size_t index) { 
-	if (index >= size) throw std::out_of_range("");
+template <typename T> T& DoublyLinkedList<T>::operator[] (int index) { 
+	if (index >= size || index < 0) throw std::out_of_range("Index out of range!");
 	Node<T>* ptr;
 	getAtIndex(index, ptr);
 	return ptr->data;
 }
-template <typename T> const T& DoublyLinkedList<T>::operator[] (size_t index) const { 
-	if (index >= size) throw std::out_of_range("");
+template <typename T> const T& DoublyLinkedList<T>::operator[] (int index) const { 
+	if (index >= size || index < 0) throw std::out_of_range("Index out of range!");
 	if (index > size / 2) {
 		Node<T>* iterator = tail;
 		for (size_t i = size - 1; i >= index; i--)
@@ -321,3 +325,5 @@ template <typename T> void DoublyLinkedList<T>::reverse() {
 		iter->setPrevious(helper);
 	}
 }
+
+#endif

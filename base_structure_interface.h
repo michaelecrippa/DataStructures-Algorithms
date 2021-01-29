@@ -1,7 +1,7 @@
-#pragma once
-#include <iostream>
+#ifndef _BASE_STRUCTURE_INTERFACE_H_
+#define _BASE_STRUCTURE_INTERFACE_H_
 
-template <typename T> class structuresInterface {
+template <typename T> class structures_interface {
 	virtual void push(const T& element) = 0; //pushFront 
 	virtual void pushBack(const T& element) = 0;
 	virtual void addAt(const T& element, size_t index) = 0;
@@ -21,3 +21,5 @@ template <typename T> class structuresInterface {
 	virtual void print() const = 0;
 	virtual bool isEmpty() const = 0;
 };
+
+#endif

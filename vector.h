@@ -1,14 +1,16 @@
-#include "baseStructureInterface.h"
+#ifndef _VECTOR_H_
+#define _VECTOR_H_
 
-template <typename T>
-class vector : public structuresInterface<T> {
+#include "base_structure_interface.h"
+
+template <typename T> class Vector : public structures_interface<T> {
 private:
 	size_t size;
 	size_t capacity;
 	T* container;
 
 	void erase();
-	void copyFrom(const vector<T>& other);
+	void copyFrom(const Vector<T>& other);
 
 	void resize();
 	void shrink_to_fit();
@@ -18,11 +20,11 @@ private:
 
 	T getAt(size_t index);
 public:
-	vector();
-	vector(size_t capacity);
-	vector(const vector& other);
-	vector<T>& operator=(const vector<T>& other);
-	~vector();
+	Vector();
+	Vector(size_t capacity);
+	Vector(const Vector& other);
+	Vector<T>& operator=(const Vector<T>& other);
+	~Vector();
 
 	void addAt(const T& element, size_t index);
 	T removeAt(size_t index);
@@ -42,21 +44,21 @@ public:
 	void print() const;
 };
 
-template <typename T> bool vector<T>::isEmpty() const {
+template <typename T> bool Vector<T>::isEmpty() const {
 	return this == nullptr;
 }
-template <typename T> bool vector<T>::outOfRange(size_t index) const{
+template <typename T> bool Vector<T>::outOfRange(size_t index) const{
 	return index >= capacity;
 }
 
-template <typename T> void vector<T>::erase() {
+template <typename T> void Vector<T>::erase() {
 	if (this->isEmpty()) return;
 	delete[] container;
 	container = nullptr;
 	size = 0;
 	capacity = 0;
 }
-template <typename T> void vector<T>::copyFrom(const vector<T>& other) {
+template <typename T> void Vector<T>::copyFrom(const Vector<T>& other) {
 	if (other.isEmpty()) {
 		erase();
 		return;
@@ -68,7 +70,7 @@ template <typename T> void vector<T>::copyFrom(const vector<T>& other) {
 	for (size_t i = 0; i < size; i++)
 		container[i] = other.container[i];
 }
-template <typename T> void vector<T>::resize() {
+template <typename T> void Vector<T>::resize() {
 	this->capacity << 1; // shift left 1 postion to get new capacity
 	T* helper = new T[capacity];
 	for (size_t i = 0; i < this->size; i++)
@@ -76,7 +78,7 @@ template <typename T> void vector<T>::resize() {
 	delete[] container;
 	container = helper;
 }
-template <typename T> void vector<T>::shrink_to_fit() {
+template <typename T> void Vector<T>::shrink_to_fit() {
 	this->capacity >> 1 // shift right 1 postiotion to get new capacity;
 	T* helper = new T[capacity];
 	for (size_t i = 0; i < this->size; i++)
@@ -85,20 +87,20 @@ template <typename T> void vector<T>::shrink_to_fit() {
 	container = helper;
 }
 
-template <typename T> vector<T>::vector() {
+template <typename T> Vector<T>::Vector() {
 	this->size = 0;
 	this->capacity = 4;
 	this->container = new T[this->capacity];
 }
-template <typename T> vector<T>::vector(size_t capacity) {
+template <typename T> Vector<T>::Vector(size_t capacity) {
 	this->size = 0;
 	this->capacity = capacity;
 	this->container = new T[this->capacity];
 }// create dynamic array with capacity closest bigger power of two to requested capacity
-template <typename T> vector<T>::vector(const vector<T>& other) {
+template <typename T> Vector<T>::Vector(const Vector<T>& other) {
 	copyFrom(other);
 }
-template <typename T> vector<T>& vector<T>::operator=(const vector<T>& other) {
+template <typename T> Vector<T>& Vector<T>::operator=(const Vector<T>& other) {
 	if (this != &other)
 	{
 		erase();
@@ -106,25 +108,25 @@ template <typename T> vector<T>& vector<T>::operator=(const vector<T>& other) {
 	}
 	return *this;
 }
-template <typename T> vector<T>::~vector() {
+template <typename T> Vector<T>::~Vector() {
 	if (!this->isEmpty()) erase();
 }
 
-template <typename T> size_t vector<T>::getSize() const {
+template <typename T> size_t Vector<T>::getSize() const {
 	return size;
 }
-template <typename T> void vector<T>::print() const {
+template <typename T> void Vector<T>::print() const {
 	if (this->isEmpty())
-		throw "Empty vector!";
+		throw "Empty Vector!";
 	for (size_t i = 0; i < size; i++)
 		std::cout << container[i] << ' ';
 }
-template  <typename T> T vector<T>::getAt(size_t index) {
+template  <typename T> T Vector<T>::getAt(size_t index) {
 	if (!outOfRange(index))
 		return container[index];
 	throw std::out_of_range("");
 }
-template <typename T> void vector<T>::addAt(const T& element, size_t index) {
+template <typename T> void Vector<T>::addAt(const T& element, size_t index) {
 	if (outOfRange(index))
 		throw std::out_of_range("exception");
 	if (size == capacity)
@@ -132,7 +134,7 @@ template <typename T> void vector<T>::addAt(const T& element, size_t index) {
 	container[index] = element;
 	size++;
 }
-template <typename T> T vector<T>::removeAt(size_t index) {
+template <typename T> T Vector<T>::removeAt(size_t index) {
 	if (outOfRange(index))
 		throw std::out_of_range("exception");
 	size--;
@@ -140,19 +142,19 @@ template <typename T> T vector<T>::removeAt(size_t index) {
 		this->shrink_to_fit();
 	return container[index];
 }
-template <typename T> T& vector<T>::operator[](size_t index) {
+template <typename T> T& Vector<T>::operator[](size_t index) {
 	if (outOfRange(index))
 		throw std::out_of_range("");
 	T* ptr = container[index];
 	return ptr;
 }
-template <typename T> const T& vector<T>::operator[](size_t index) const {
+template <typename T> const T& Vector<T>::operator[](size_t index) const {
 	if (outOfRange(index))
 		throw std::out_of_range("");
 	return container[index];
 }
 
-template <typename T> void vector<T>::push(const T& element) {
+template <typename T> void Vector<T>::push(const T& element) {
 	if (size == capacity)
 		resize();
 	for (size_t i = size - 1; i > 0; i--)
@@ -160,10 +162,10 @@ template <typename T> void vector<T>::push(const T& element) {
 	container[0] = element;
 	size++;
 }
-template <typename T> void vector<T>::pushBack(const T& element) {
+template <typename T> void Vector<T>::pushBack(const T& element) {
 	this->addAt(element, this->size);
 }
-template <typename T> T vector<T>::pop() {
+template <typename T> T Vector<T>::pop() {
 	if (isEmpty()) throw std::out_of_range("");
 	T el = container[0];
 	for (size_t i = size - 1; i > 0; i++)
@@ -171,11 +173,13 @@ template <typename T> T vector<T>::pop() {
 	size--;
 	return el;
 }
-template <typename T> T vector<T>::popBack() {
+template <typename T> T Vector<T>::popBack() {
 	return this->removeAt(this->size - 1);
 }
-template <typename T> T vector<T>::peak() const {
+template <typename T> T Vector<T>::peak() const {
 	if (isEmpty())
 		throw std::length_error("exc");
 	return container[0];
 }
+
+#endif 
