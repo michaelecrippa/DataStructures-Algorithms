@@ -1,9 +1,10 @@
 # Data structures
-- Linear structures:
+
+Linear structures
 * list (singly/doubly linked) - available
 * vector - available
 
-Abstract structures:
+Abstract structures
 * stack - available
   * usig structure of a linked list - (pushBack and popFront)
   * using structure of an array - (pushFront and popBack)
