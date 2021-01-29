@@ -35,5 +35,6 @@ Searching
 * Binary search
 * Breadth first search
 * Depth first search
+
 //To do
 (add graph algorithms)
