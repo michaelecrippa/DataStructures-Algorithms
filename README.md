@@ -11,9 +11,9 @@ Abstract structures:
 * heap - available
 //To do
 * tree
- * BST
- * Red/Black tree
- * AVL
+  * BST
+  * Red/Black tree
+  * AVL
 * graph 
   * adj_matrix
   * edge_list
