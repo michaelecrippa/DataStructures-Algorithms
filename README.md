@@ -28,7 +28,8 @@ Sorting
 * quick sort 
 * counting sort
 * heap sort
-* bucket sort
+* bucket sort 
+
 Searching
 * Binary search
 * Breadth first search
